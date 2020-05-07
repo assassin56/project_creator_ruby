@@ -10,8 +10,16 @@ class Project
     FileUtils.mkdir_p "../#{@project_name}/spec"
     FileUtils.touch "../#{@project_name}/lib/#{@project_name}.rb"
     FileUtils.touch "../#{@project_name}/spec/#{@project_name}_spec.rb"
-    File.open("../#{@project_name}/spec/#{@project_name}_spec.rb", 'a') {|f| f.write("did this appear") } 
-    # File.open("../#{@project_name}/lib/#{@project_name}.rb", 'a') {|f| f.write("class /n end") }
+    FileUtils.touch "../#{@project_name}/Gemfile"
+    File.open("../#{@project_name}/Gemfile", 'a') {|f| f.write(" 
+source 'https://rubygems.org' 
+gem 'pry' 
+gem 'rspec' ") }
+    File.open("../#{@project_name}/lib/#{@project_name}.rb", 'a') {|f| f.write("require ('pry')" + "\n" + "class" + "\n" + "end") }
+    File.open("../#{@project_name}/spec/#{@project_name}_spec.rb", 'a') {|f| f.write("
+require ('pry')
+require ('rspec')") }
+File.open("../#{@project_name}/README.md", 'a') {|f| f.write("#{Time.new}") }
   end
 end
 
@@ -20,5 +28,4 @@ puts "What would you like your Ruby file to be called?"
 file_name = gets.chomp
 project = Project.new(file_name)
 puts (project.project_gen)
-
 
